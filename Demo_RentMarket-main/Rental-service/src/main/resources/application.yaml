@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: rental-service
+server:
+  port: 8085
