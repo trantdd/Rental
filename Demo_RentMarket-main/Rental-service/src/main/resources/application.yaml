@@ -1,5 +1,57 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /rental
+
 spring:
   application:
-    name: rental-service
-server:
-  port: 8085
+    name: Rental-service
+
+  config:
+    import: optional:file:.env[.properties]
+
+  security:
+    user:
+      name: hoangluc
+      password: 1234567
+
+  datasource:
+    url: jdbc:mysql://localhost:3308/rental_service?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
+jwt:
+  signerKey: "_G8QMpPL2NdilojwwGVfLjMfUvkn_6fBMUZ30WYQAtA1234567890abcdefghijklm"
+
+app:
+  product-service:
+    # Docker: http://product-service:8081/product/items
+    url: http://localhost:8081/product/items
+  identity-service:
+    # Docker: http://identity-service:8080/identity/users
+    url: http://localhost:8080/identity/users
+
+  # === MoMo Payment Gateway ===
+  momo:
+    partner-code: ${MOMO_PARTNER_CODE}
+    access-key: ${MOMO_ACCESS_KEY}
+    secret-key: ${MOMO_SECRET_KEY}
+    api-endpoint: ${MOMO_API_ENDPOINT}
+    notify-url: ${MOMO_NOTIFY_URL}
+    return-url: ${MOMO_RETURN_URL}
+
+  # === RestTemplate timeout (ms) ===
+  http:
+    connect-timeout: 5000
+    read-timeout: 10000
